@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/listbase.css}">
+    <link rel="stylesheet" th:href="@{/css/book/list.css}">
+</th:block>
+
+<head>
+    <title>書籍一覧</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <header>
+        <h1>書籍一覧</h1>
+    </header>
+
+    <!-- 検索フォーム -->
+    <section class="search-section">
+        <form th:action="@{/book}" method="get" th:object="${bookSearchForm}">
+            <div>
+                <div class="field-container">
+                    <label for="isbn">ISBN</label>
+                    <input type="text" id="isbn" th:field="*{isbn}" maxlength="13"
+                           placeholder="例：978-4-123456-78-9" aria-label="ISBN番号"/>
+                </div>
+                <div class="field-container">
+                    <label for="title">書名</label>
+                    <input type="text" id="title" th:field="*{title}" maxlength="200"
+                           placeholder="書籍のタイトルを入力" aria-label="書籍タイトル"/>
+                </div>
+                <div class="field-container">
+                    <label for="author">著者名</label>
+                    <input type="text" id="author" th:field="*{author}" maxlength="100"
+                           placeholder="著者の名前を入力" aria-label="著者名"/>
+                </div>
+                <div class="field-container">
+                    <label for="publisher">出版社名</label>
+                    <input type="text" id="publisher" th:field="*{publisher}" maxlength="100"
+                           placeholder="出版社の名前を入力" aria-label="出版社名"/>
+                </div>
+                <div class="field-container">
+                    <label for="price">価格</label>
+                    <input type="number" id="price" th:field="*{price}" min="0" step="1"
+                           placeholder="価格を入力" aria-label="書籍の価格"/>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <span>検索</span>
+                </button>
+
+                <a th:href="@{/book/new}" class="btn btn-secondary">
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                    <span>新規登録</span>
+                </a>
+            </div>
+        </form>
+    </section>
+
+    <hr class="divider"/>
+
+    <section class="table-section">
+        <table>
+            <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>書名</th>
+                <th>著者名</th>
+                <th>出版社名</th>
+                <th>価格</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td>
+                    <a th:href="@{/book/{id}(id=${book.isbn})}" th:text="${book.isbn}"></a>
+                </td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.publisher}"></td>
+                <td th:text="${'￥' + #numbers.formatInteger(book.price,1,'COMMA')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

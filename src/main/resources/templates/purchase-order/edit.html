@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/purchase-order/edit.css}">
+</th:block>
+
+<head>
+    <title>仕入発注編集</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="purchase-form">
+        <h1>仕入発注編集</h1>
+        <form th:action="@{/purchase-order/edit/{id}(id=${purchaseOrderForm.id})}"
+              method="post"
+              th:object="${purchaseOrderForm}">
+
+            <input type="hidden" th:field="*{id}">
+
+            <div>
+                <label for="supplierName">仕入先：</label>
+                <input type="text" id="supplierName" th:field="*{supplierName}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="orderDate">発注日：</label>
+                <input type="date" id="orderDate" th:field="*{orderDate}" class="form-control" required>
+            </div>
+
+            <div>
+                <label for="status">状態：</label>
+                <select id="status" th:field="*{status}" class="form-control" required>
+                    <option value="ORDERED">発注済</option>
+                    <option value="RECEIVED">納品済</option>
+                </select>
+            </div>
+
+            <h2>発注詳細</h2>
+            <table class="items-table">
+                <thead>
+                <tr>
+                    <th>書籍名</th>
+                    <th>数量</th>
+                    <th>単価</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item, stat : *{purchaseOrderItems}">
+                    <td>
+                        <input type="hidden" th:field="*{purchaseOrderItems[__${stat.index}__].isbn}">
+                        <input type="text"
+                               th:field="*{purchaseOrderItems[__${stat.index}__].title}"
+                               class="form-control">
+                    </td>
+                    <td>
+                        <input type="number"
+                               th:field="*{purchaseOrderItems[__${stat.index}__].quantity}"
+                               class="form-control"
+                               min="1">
+                    </td>
+                    <td>
+                        <input type="number"
+                               th:field="*{purchaseOrderItems[__${stat.index}__].unitPrice}"
+                               class="form-control"
+                               min="0">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">更新</button>
+                <a th:href="@{/purchase-order}" class="btn btn-link">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    <span>一覧へ戻る</span>
+                </a>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

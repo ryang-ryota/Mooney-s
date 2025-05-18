@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="context1" targetRuntime="MyBatis3">
+        <!-- Lombokプラグインを追加 -->
+        <plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin"/>
+        <!-- エンティティクラスにwithXxx()メソッドを作成する -->
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
+        <!-- エンティティクラスにSerializableを実装する -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- Mapperインタフェースに@Mapperアノテーションを付加する -->
+        <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
+        <!-- マッパxmlファイルを生成時に上書きするためのプラグイン -->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+
+        <!-- コメント生成の抑制 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- JDBC接続情報 -->
+        <jdbcConnection driverClass="org.postgresql.Driver"
+                        connectionURL="jdbc:postgresql://localhost:5432/mooneys"
+                        userId="mooneys"
+                        password="mooneys"/>
+
+        <javaTypeResolver>
+            <!-- DATE、TIME、TIMESTAMPをLocalDate、LocalDateTimeとする-->
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+        <!-- エンティティ出力先 -->
+        <javaModelGenerator targetPackage="com.example.mooneys.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.example.mooneys.mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- Mapperインターフェース出力先 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.example.mooneys.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- 全テーブルを対象 -->
+        <table schema="public" tableName="%"/>
+    </context>
+</generatorConfiguration>

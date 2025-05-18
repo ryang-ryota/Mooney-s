@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/book/new.css}">
+</th:block>
+
+<head>
+    <title>書籍新規登録</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <header>
+        <h1>書籍新規登録</h1>
+    </header>
+
+    <form th:action="@{/book/new}" method="post" th:object="${bookForm}">
+        <div>
+            <label>ISBN: <input type="text" th:field="*{isbn}"/></label>
+            <div th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></div>
+        </div>
+        <div>
+            <label>書名: <input type="text" th:field="*{title}"/></label>
+            <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        </div>
+        <div>
+            <label>著者名: <input type="text" th:field="*{author}"/></label>
+            <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
+        </div>
+        <div>
+            <label>出版社名: <input type="text" th:field="*{publisher}"/></label>
+            <div th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}"></div>
+        </div>
+        <div>
+            <label>価格: <input type="number" step="0.01" th:field="*{price}"/></label>
+            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">登録</button>
+            <a th:href="@{/book}" class="btn btn-link">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                <span>一覧へ戻る</span>
+            </a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

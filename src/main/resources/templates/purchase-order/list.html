@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/listbase.css}">
+    <link rel="stylesheet" th:href="@{/css/purchase-order/list.css}">
+</th:block>
+
+<head>
+    <title>仕入発注一覧</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <header>
+        <h1>仕入発注一覧</h1>
+    </header>
+
+    <!-- 操作フォーム -->
+    <form th:action="@{/purchase-order}" method="post" class="operations-form">
+        <div class="form-actions">
+            <a th:href="@{/purchase-order/new}" class="btn btn-secondary">
+                <i class="fas fa-plus" aria-hidden="true"></i>
+                <span>新規登録</span>
+            </a>
+        </div>
+
+        <hr class="divider"/>
+
+        <!-- テーブルセクション -->
+        <section class="table-section">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>仕入先</th>
+                    <th>発注日</th>
+                    <th>状態</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="po : ${purchaseOrderList}">
+                    <td th:text="${po.id}"></td>
+                    <td th:text="${po.supplierName}"></td>
+                    <td th:text="${#temporals.format(po.orderDate, 'yyyy/MM/dd')}"></td>
+                    <td th:text="${po.status}"></td>
+                    <td class="action-buttons">
+                        <a class="btn btn-edit" th:href="@{/purchase-order/edit/{id}(id=${po.id})}">
+                            <i class="fas fa-edit"></i> 編集
+                        </a>
+                        <button type="submit" class="btn btn-delete"
+                                th:formaction="@{/purchase-order/delete/{id}(id=${po.id})}"
+                                th:data-confirm="本当に削除しますか？">
+                            <i class="fas fa-trash"></i> 削除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </form>
+</main>
+</body>
+</html>

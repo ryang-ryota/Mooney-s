@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mooneys.mapper.custom.CustomStockMapper">
+
+    <select id="selectByBookTitle" resultType="com.example.mooneys.dto.StockWithBookDto">
+        SELECT
+            s.id,
+            s.isbn,
+            b.title AS bookTitle,
+            s.quantity AS quantity
+        FROM
+            stock s
+        INNER JOIN book b ON s.isbn = b.isbn
+        <where>
+            <if test="bookTitle != null and bookTitle != ''">
+                AND b.title LIKE CONCAT('%', #{bookTitle}, '%')
+            </if>
+        </where>
+        ORDER BY s.id
+    </select>
+
+    <select id="selectById" resultType="com.example.mooneys.dto.StockWithBookDto">
+        SELECT
+            s.id,
+            s.isbn,
+            b.title AS bookTitle,
+            s.quantity AS quantity
+        FROM
+            stock s
+        INNER JOIN book b ON s.isbn = b.isbn
+        WHERE s.id = #{id}
+    </select>
+
+</mapper>

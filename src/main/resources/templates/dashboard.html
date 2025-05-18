@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<head>
+    <title>ダッシュボード</title>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    </th:block>
+</head>
+<body>
+<main layout:fragment="content" class="dashboard">
+    <h1 class="dashboard-title">ダッシュボード</h1>
+    <div class="menu-grid">
+        <ul class="menu-list">
+            <li>
+                <a th:href="@{/book}" class="menu-item">
+                    <i class="fas fa-book"></i>
+                    <span class="menu-label">書籍管理</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/stock}" class="menu-item">
+                    <i class="fas fa-boxes"></i>
+                    <span class="menu-label">在庫管理</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/purchase-order}" class="menu-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="menu-label">仕入発注</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/purchase}" class="menu-item">
+                    <i class="fas fa-truck"></i>
+                    <span class="menu-label">納品管理</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/sale}" class="menu-item">
+                    <i class="fas fa-cash-register"></i>
+                    <span class="menu-label">販売管理</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/customer}" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span class="menu-label">顧客管理</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>

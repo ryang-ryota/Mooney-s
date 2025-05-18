@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/purchase-order/new.css}">
+</th:block>
+<th:block layout:fragment="scripts">
+    <script defer th:src="@{/js/purchase-order/new.js}"></script>
+</th:block>
+
+<head>
+    <title>新規仕入発注登録</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <header>
+        <h1>新規仕入発注登録</h1>
+    </header>
+
+    <form th:action="@{/purchase-order/new}" method="post" th:object="${purchaseOrderForm}">
+        <div>
+            <label for="supplierName">仕入先</label>
+            <input type="text"
+                   id="supplierName"
+                   th:field="*{supplierName}"
+                   required
+                   autocomplete="off">
+        </div>
+
+        <div>
+            <label for="orderDate">発注日</label>
+            <input type="date"
+                   id="orderDate"
+                   th:field="*{orderDate}"
+                   required>
+        </div>
+
+        <div>
+            <label for="status">状態</label>
+            <select id="status" th:field="*{status}" required>
+                <option value="ORDERED">発注済</option>
+                <option value="RECEIVED">納品済</option>
+            </select>
+        </div>
+
+        <table id="purchaseOrderItems" class="items-table">
+            <thead>
+            <tr>
+                <th scope="col">書籍名</th>
+                <th scope="col">数量</th>
+                <th scope="col">仕入単価</th>
+                <th scope="col"><span class="sr-only">操作</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th:block th:each="item : *{purchaseOrderItems}" class="item-row">
+                    <td>
+                        <input type="hidden" th:field="*{item.bookId}">
+                        <input type="text"
+                               th:field="*{item.bookName}"
+                               required
+                               class="book-name-input">
+                    </td>
+                    <td>
+                        <input type="number"
+                               th:field="*{item.quantity}"
+                               min="1"
+                               required
+                               class="quantity-input">
+                    </td>
+                    <td>
+                        <input type="number"
+                               th:field="*{item.unitPrice}"
+                               min="0"
+                               required
+                               class="price-input">
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-delete"
+                                onclick="removeRow(this);">
+                            <i class="fas fa-trash" aria-hidden="true"></i>
+                            <span>削除</span>
+                        </button>
+                    </td>
+                </th:block>
+                <td>
+                    <input type="hidden" name="bookId">
+                    <input type="text" name="bookName">
+                </td>
+                <td>
+                    <input type="number" name="quantity" min="1">
+                </td>
+                <td>
+                    <input type="number" name="unitPrice" min="0">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-delete" onclick="removeRow(this);">
+                        <i class="fas fa-trash" aria-hidden="true"></i>
+                        <span>削除</span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="addRow();">
+                <i class="fas fa-plus" aria-hidden="true"></i>
+                <span>明細追加</span>
+            </button>
+            <button type="submit" class="btn btn-primary">登録</button>
+            <a class="btn btn-link" th:href="@{/purchase-order}">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                <span>一覧へ戻る</span>
+            </a>
+        </div>
+
+    </form>
+</main>
+</body>
+</html>
