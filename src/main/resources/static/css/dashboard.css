@@ -73,3 +73,57 @@
     font-size: 1rem;
   }
 }
+
+/* Coming Soon スタイル */
+.menu-item.coming-soon {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+    overflow: hidden;
+}
+
+.menu-item.coming-soon::before {
+    content: "Coming Soon";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    background-color: #ff6b6b;
+    color: white;
+    padding: 4px 40px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.menu-item.coming-soon::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+}
+
+/* ホバー効果 */
+.menu-item.coming-soon:hover {
+    cursor: not-allowed;
+}
+
+@media (hover: hover) {
+    .menu-item.coming-soon:hover::before {
+        background-color: #ff5252;
+    }
+}
+
+/* アクセシビリティ対応 */
+.menu-item.coming-soon .menu-label::after {
+    content: "（準備中）";
+    font-size: 0.8em;
+    margin-left: 4px;
+}
