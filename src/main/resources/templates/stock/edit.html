@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/stock/edit.css}">
+</th:block>
+
+<head>
+    <title>在庫編集</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <header>
+        <h1>在庫編集</h1>
+    </header>
+
+    <form th:action="@{/stock/edit/{id}(id=${stockForm.id})}" method="post" th:object="${stockForm}">
+        <div>
+            <label for="isbn">ISBN：<input type="text" id="isbn" th:field="*{isbn}" readonly/></label>
+        </div>
+        <div>
+            <label for="quantity">在庫数：<input type="number" id="quantity" th:field="*{quantity}" min="0" required/></label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">更新</button>
+            <a th:href="@{/stock/{id}(id=${stockForm.id})}" class="btn btn-link">
+                <i class="fas fa-info-circle" aria-hidden="true"></i>
+                <span>詳細</span>
+            </a>
+            <a th:href="@{/stock}" class="btn btn-link">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                <span>一覧へ戻る</span>
+            </a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

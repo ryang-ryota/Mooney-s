@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/book/detail.css}">
+</th:block>
+
+<head>
+    <title>書籍詳細</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <h1>書籍詳細</h1>
+
+    <dl class="detail" aria-label="書籍情報">
+        <div class="detail__item">
+            <dt>ISBN</dt>
+            <dd th:text="${book.isbn}"></dd>
+        </div>
+        <div class="detail__item">
+            <dt>書名</dt>
+            <dd th:text="${book.title}"></dd>
+        </div>
+        <div class="detail__item">
+            <dt>著者名</dt>
+            <dd th:text="${book.author}"></dd>
+        </div>
+        <div class="detail__item">
+            <dt>出版社名</dt>
+            <dd th:text="${book.publisher}"></dd>
+        </div>
+        <div class="detail__item">
+            <dt>価格</dt>
+            <dd th:text="${'￥' + #numbers.formatInteger(book.price,1,'COMMA')}"></dd>
+        </div>
+    </dl>
+
+    <div class="detail-actions">
+        <nav class="navigation">
+            <a th:href="@{'/book/edit/' + ${book.isbn}}" class="btn btn-edit">編集</a>
+            <a th:href="@{/book}" class="btn btn-back">一覧へ戻る</a>
+        </nav>
+        <form th:action="@{'/book/delete/' + ${book.isbn}}"
+              method="post"
+              class="delete-form">
+            <button type="submit"
+                    class="btn btn-delete"
+                    onclick="return confirm('本当に削除しますか？');"
+                    aria-label="この書籍を削除">削除
+            </button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

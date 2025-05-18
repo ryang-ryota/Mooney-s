@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{commons/layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/stock/detail.css}">
+</th:block>
+
+<head>
+    <title>在庫詳細</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <h1>在庫詳細</h1>
+
+    <table>
+        <tr>
+            <th>在庫ID</th>
+            <td th:text="${stock.id}"></td>
+        </tr>
+        <tr>
+            <th>ISBN</th>
+            <td th:text="${stock.isbn}"></td>
+        </tr>
+        <tr>
+            <th>書名</th>
+            <td th:text="${stock.bookTitle}"></td>
+        </tr>
+        <tr>
+            <th>在庫数</th>
+            <td th:text="${stock.quantity}"></td>
+        </tr>
+    </table>
+
+    <div class="detail-actions">
+        <nav class="navigation">
+            <a th:href="@{/stock/edit/{id}(id=${stock.id})}" class="btn btn-edit">編集</a>
+            <a th:href="@{/stock}" class="btn btn-link">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                <span>一覧へ戻る</span>
+            </a>
+        </nav>
+        <form th:action="@{/stock/delete/{id}(id=${stock.id})}"
+              method="post"
+              class="delete-form">
+            <button type="submit"
+                    class="btn btn-delete"
+                    onclick="return confirm('本当に削除しますか？');"
+                    aria-label="この在庫を削除">削除
+            </button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

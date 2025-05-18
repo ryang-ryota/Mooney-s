@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mooneys.mapper.custom.CustomPurchaseOrderMapper">
+    <!-- 共通のSQLフラグメント定義 -->
+    <sql id="purchaseOrderColumns">
+        /* 注文情報 */
+        purchase.id,
+        purchase.supplier_id,
+        purchase.order_date,
+        purchase.status,
+        /* サプライヤー情報 */
+        supplier.name AS supplier_name
+    </sql>
+
+    <sql id="joinClause">
+        FROM purchase_order purchase
+        INNER JOIN supplier ON supplier.id = purchase.supplier_id
+    </sql>
+
+    <!-- 全件取得クエリ -->
+    <select id="selectAllWithSupplier" resultType="com.example.mooneys.dto.PurchaseOrderWithSupplierDto">
+        SELECT
+            <include refid="purchaseOrderColumns"/>
+            <include refid="joinClause"/>
+        ORDER BY purchase.id ASC
+    </select>
+
+    <!-- ID指定取得クエリ -->
+    <select id="selectByIdWithSupplier" resultType="com.example.mooneys.dto.PurchaseOrderWithSupplierDto">
+        SELECT
+            <include refid="purchaseOrderColumns"/>
+            <include refid="joinClause"/>
+        WHERE purchase.id = #{id}
+    </select>
+
+    <resultMap id="PurchaseOrderDtoMap" type="com.example.mooneys.dto.PurchaseOrderDto">
+        <id property="id" column="purchase_order_id"/>
+        <result property="supplierId" column="supplier_id"/>
+        <result property="supplierName" column="supplier_name"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="status" column="status"/>
+        <collection property="purchaseOrderItems" ofType="com.example.mooneys.dto.PurchaseOrderItemWithTitleDto">
+            <result property="isbn" column="isbn"/>
+            <result property="title" column="title"/>
+            <result property="quantity" column="quantity"/>
+            <result property="unitPrice" column="unit_price"/>
+        </collection>
+    </resultMap>
+
+    <select id="findOrderDetail" parameterType="Integer" resultMap="PurchaseOrderDtoMap">
+        SELECT
+            po.id as purchase_order_id,
+            po.supplier_id,
+            s.name as supplier_name,
+            po.order_date,
+            po.status,
+            poi.isbn,
+            b.title,
+            poi.quantity,
+            poi.unit_price
+        FROM
+            purchase_order po
+        LEFT JOIN supplier s ON po.supplier_id = s.id
+        LEFT JOIN purchase_order_item poi ON po.id = poi.purchase_order_id
+        LEFT JOIN book b ON poi.isbn = b.isbn
+        WHERE
+            po.id = #{id}
+    </select>
+
+</mapper>

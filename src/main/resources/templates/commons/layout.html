@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE - Mooney's">Mooney's 在庫管理システム</title>
+
+    <!-- 共通CSS -->
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- 個別ページのCSSをインクルード -->
+    <th:block layout:fragment="css"/></th:block>
+</head>
+<body>
+<header class="main-header">
+    <div class="header-content">
+        <h1 class="site-title">
+            <a th:href="@{/dashboard}">Mooney's 在庫管理システム</a>
+        </h1>
+        <!-- ナビゲーションメニューを条件付きで表示 -->
+        <nav class="main-nav" th:unless="${isDashboard}">
+            <ul>
+                <li><a th:href="@{/book}">書籍管理</a></li>
+                <li><a th:href="@{/stock}">在庫管理</a></li>
+                <li><a th:href="@{/purchase-order}">仕入発注</a></li>
+            </ul>
+        </nav>
+        <div class="user-menu">
+            <span th:text="${#authentication.name}">ユーザー名</span>
+            <form th:action="@{/logout}" method="post" class="logout-form">
+                <button type="submit" class="btn btn-logout">ログアウト</button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <!-- エラーメッセージ表示領域 -->
+    <div th:if="${message}" class="alert" role="alert">
+        <p th:text="${message}"></p>
+    </div>
+
+    <!-- メインコンテンツ -->
+    <main layout:fragment="content">
+        <!-- 各ページの内容がここに挿入されます -->
+    </main>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-content" th:unless="${isDashboard}">
+        <a th:href="@{/dashboard}">ダッシュボードへ戻る</a>
+    </div>
+    <div class="footer-content">
+        <p>&copy; 20XX Mooney's BookStore</p>
+    </div>
+</footer>
+
+<!-- 共通JavaScript -->
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+
+<!-- 個別ページのJavaScriptをインクルード -->
+<th:block layout:fragment="scripts"/>
+</body>
+</html>
