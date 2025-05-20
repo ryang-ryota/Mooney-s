@@ -34,4 +34,4 @@ build/
 
 ### Mooney's ###
 src/main/resources/application-secret.yml
-
+docker-compose*.yml
