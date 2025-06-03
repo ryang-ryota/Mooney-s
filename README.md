@@ -1,4 +1,4 @@
-# Mooney's Book Store
+# Mooney's Book Store(Git公開の練習)
 
 ![demo](https://github.com/user-attachments/assets/82e1e5f3-7784-479f-9d8f-4c0452706b22)
 
